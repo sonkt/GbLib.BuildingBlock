@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.50.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Templates\CleanArchitecture\APIProjectTemplate\ApiProjectTemplate.csproj" />
+    <Content Include="Templates\CleanArchitecture\ApplicationProjectTemplate\ApplicationProjectTemplate.csproj" />
+    <Content Include="Templates\CleanArchitecture\DomainProjectTemplate\DomainProjectTemplate.csproj" />
+    <Content Include="Templates\CleanArchitecture\InfrastructureProjectTemplate\InfrastructureProjectTemplate.csproj" />
+  </ItemGroup>
+
+</Project>
