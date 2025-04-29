@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace BuildingBlock.Application.CQRS;
+namespace GbLib.Application.CQRS;
 
 public abstract class CommandHandler<TCommand, TResult> : IRequestHandler<TCommand, TResult>
     where TCommand : ICommand<TResult>

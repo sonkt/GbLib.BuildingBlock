@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Building Block  for Clean Architecture.</Title>
+        <Authors>Son Khieu   </Authors>
+        <Description>This is the foundational library used to build services based on Clean Architecture principles.</Description>
+        <Copyright>Son Khieu</Copyright>
+        <PackageProjectUrl>https://github.com/sonkt/GbLib.BuildingBlock</PackageProjectUrl>
+        <PackageIcon>appicon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/sonkt/GbLib.BuildingBlock</RepositoryUrl>
+        <PackageTags>CleanArchitecture;DDD;CQRS</PackageTags>
+        <PackageId>GbLib.BuildingBlock</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="EventBus\" />
+      <Folder Include="ExceptionHandling\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="14.0.0" />
+      <PackageReference Include="MediatR" Version="12.5.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appicon.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+    </ItemGroup>
+
+</Project>

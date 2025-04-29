@@ -1,4 +1,4 @@
-namespace BuildingBlock.Domain.Entities;
+namespace GbLib.Domain.Entities;
 
 public abstract class BaseEntity
 {

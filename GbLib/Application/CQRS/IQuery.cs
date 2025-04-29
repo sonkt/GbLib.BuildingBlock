@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace BuildingBlock.Application.CQRS;
+namespace GbLib.Application.CQRS;
 
 public interface IQuery<out TResponse> : IRequest<TResponse>
 {
