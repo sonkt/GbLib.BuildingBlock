@@ -1,7 +1,7 @@
-using GbLib.Domain.Interfaces;
+using GbLib.BuildingBlock.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace GbLib.Infrastructure.Persistence;
+namespace GbLib.BuildingBlock.Infrastructure.Persistence;
 
 public static class SpecificationEvaluator<T> where T : class
 {

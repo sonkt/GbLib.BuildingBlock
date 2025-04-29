@@ -1,9 +1,9 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using GbLib.Domain.Interfaces;
-using GbLib.Infrastructure.Persistence;
+using GbLib.BuildingBlock.Domain.Interfaces;
+using GbLib.BuildingBlock.Infrastructure.Persistence;
 
-namespace GbLib.Domain.Specifications;
+namespace GbLib.BuildingBlock.Domain.Specifications;
 
 public static class SpecificationProjection
 {

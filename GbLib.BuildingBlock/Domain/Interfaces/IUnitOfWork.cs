@@ -1,6 +1,6 @@
-using GbLib.Domain.Entities;
+using GbLib.BuildingBlock.Domain.Entities;
 
-namespace GbLib.Domain.Interfaces;
+namespace GbLib.BuildingBlock.Domain.Interfaces;
 
 public interface IUnitOfWork : IDisposable
 {

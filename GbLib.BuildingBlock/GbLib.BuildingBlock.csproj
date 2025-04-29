@@ -14,6 +14,7 @@
         <RepositoryUrl>https://github.com/sonkt/GbLib.BuildingBlock</RepositoryUrl>
         <PackageTags>CleanArchitecture;DDD;CQRS</PackageTags>
         <PackageId>GbLib.BuildingBlock</PackageId>
+        <Version>1.1.1</Version>
     </PropertyGroup>
 
     <ItemGroup>

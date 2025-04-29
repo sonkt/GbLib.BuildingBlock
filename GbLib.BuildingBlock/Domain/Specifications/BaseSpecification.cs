@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
-using GbLib.Domain.Interfaces;
+using GbLib.BuildingBlock.Domain.Interfaces;
 
-namespace GbLib.Domain.Specifications;
+namespace GbLib.BuildingBlock.Domain.Specifications;
 
 public abstract class BaseSpecification<T> : ISpecification<T>
 {

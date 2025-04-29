@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace GbLib.Domain.Interfaces;
+namespace GbLib.BuildingBlock.Domain.Interfaces;
 
 public interface ISpecification<T>
 {

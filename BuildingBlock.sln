@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GbLib", "GbLib\GbLib.csproj", "{0A703578-15FA-4418-92D8-FBCCAF9E381F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GbLib.BuildingBlock", "GbLib.BuildingBlock\GbLib.BuildingBlock.csproj", "{0A703578-15FA-4418-92D8-FBCCAF9E381F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceScaffolder", "ServiceScaffolder\ServiceScaffolder.csproj", "{FC82F50A-88D6-4B69-A4B9-3AA1B07CE2A2}"
 EndProject

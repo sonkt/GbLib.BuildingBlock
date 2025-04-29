@@ -1,9 +1,9 @@
-using GbLib.Domain.Entities;
-using GbLib.Domain.Interfaces;
+using GbLib.BuildingBlock.Domain.Entities;
+using GbLib.BuildingBlock.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GbLib.Infrastructure.UnitOfWork;
+namespace GbLib.BuildingBlock.Infrastructure.UnitOfWork;
 
 public class UnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
 {

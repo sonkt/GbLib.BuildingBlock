@@ -1,6 +1,6 @@
-using GbLib.Domain.Interfaces;
+using GbLib.BuildingBlock.Domain.Interfaces;
 
-namespace GbLib.Domain.Specifications;
+namespace GbLib.BuildingBlock.Domain.Specifications;
 
 public class OrSpecification<T> : BaseSpecification<T>
 {

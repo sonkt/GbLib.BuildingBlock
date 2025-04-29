@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
-using GbLib.Domain.Entities;
-using GbLib.Domain.Interfaces;
+using GbLib.BuildingBlock.Domain.Entities;
+using GbLib.BuildingBlock.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace GbLib.Infrastructure.Persistence;
+namespace GbLib.BuildingBlock.Infrastructure.Persistence;
 
 public class EfRepository<T> : IRepository<T> where T : BaseEntity
 {
