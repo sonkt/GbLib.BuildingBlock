@@ -7,44 +7,64 @@ namespace GbLib.BuildingBlock.Infrastructure.Persistence;
 
 public class EfRepository<T> : IRepository<T> where T : BaseEntity
 {
-    protected readonly DbContext _context;
-    protected readonly DbSet<T> _dbSet;
+    private readonly DbSet<T> _entities;
 
-    public EfRepository(DbContext context)
+    public EfRepository(DbContext dbContext)
     {
-        _context = context;
-        _dbSet = context.Set<T>();
+        _entities = dbContext.Set<T>();
     }
 
     public async Task<T?> GetByIdAsync(Guid id)
-        => await _dbSet.FindAsync(id);
+    {
+        ValidateId(id);
+        return await _entities.FindAsync(id);
+    }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
-        => await _dbSet.ToListAsync();
+    public async Task<List<T>> GetAllAsync()
+    {
+        return await _entities.ToListAsync();
+    }
 
     public async Task AddAsync(T entity)
-        => await _dbSet.AddAsync(entity);
+    {
+        await _entities.AddAsync(entity);
+    }
 
     public void Update(T entity)
-        => _dbSet.Update(entity);
+    {
+        _entities.Update(entity);
+    }
 
     public void Delete(T entity)
-        => _dbSet.Remove(entity);
+    {
+        _entities.Remove(entity);
+    }
 
     public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
-        => await _dbSet.AnyAsync(predicate);
+    {
+        return await _entities.AnyAsync(predicate);
+    }
 
     public async Task<T?> GetBySpecAsync(ISpecification<T> spec)
     {
-        return await SpecificationEvaluator<T>
-            .GetQuery(_dbSet.AsQueryable(), spec)
-            .FirstOrDefaultAsync();
+        return await ApplySpecification(spec).FirstOrDefaultAsync();
     }
 
     public async Task<List<T>> ListAsync(ISpecification<T> spec)
     {
-        return await SpecificationEvaluator<T>
-            .GetQuery(_dbSet.AsQueryable(), spec)
-            .ToListAsync();
+        return await ApplySpecification(spec).ToListAsync();
+    }
+
+    private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+    {
+        return SpecificationEvaluator<T>.GetQuery(_entities.AsQueryable(), spec);
+    }
+
+    private void ValidateId(Guid id)
+    {
+        if (id == Guid.Empty)
+        {
+            throw new ArgumentException("ID cannot be empty.", nameof(id));
+        }
     }
 }
