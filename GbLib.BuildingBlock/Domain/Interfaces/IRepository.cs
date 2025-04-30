@@ -1,16 +1,20 @@
 using System.Linq.Expressions;
 using GbLib.BuildingBlock.Domain.Entities;
+using GbLib.BuildingBlock.Domain.Specifications;
 
 namespace GbLib.BuildingBlock.Domain.Interfaces;
 
-public interface IRepository<TEntity> where TEntity : BaseEntity
+public interface IQueryRepository<TEntity> where TEntity : IEntity
 {
     Task<TEntity?> GetByIdAsync(Guid id);
-    Task<List<TEntity>> GetAllAsync();
+    Task<List<TEntity>> ListAsync(BaseSpecification<TEntity> spec); // Use BaseSpecification directly
+    Task<(List<TEntity> Items, int TotalCount)> ListAsyncWithPaging(BaseSpecification<TEntity> spec); // Use BaseSpecification for paging as well
+    Task<int> CountAsync(BaseSpecification<TEntity> spec);
+}
+
+public interface ICommandRepository<in TEntity> where TEntity : IEntity
+{
     Task AddAsync(TEntity entity);
-    void Update(TEntity entity);
-    void Delete(TEntity entity);
-    Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
-    Task<TEntity?> GetBySpecAsync(ISpecification<TEntity> spec);
-    Task<List<TEntity>> ListAsync(ISpecification<TEntity> spec);
+    Task UpdateAsync(TEntity entity);
+    Task DeleteAsync(TEntity entity);
 }

@@ -11,21 +11,21 @@ public static class SpecificationEvaluator<T> where T : class
 
         query = query.Where(spec.Criteria);
 
+        if (spec.AsNoTracking)
+        {
+            query = query.AsNoTracking();
+        }
+
         if (spec.OrderBy != null)
             query = query.OrderBy(spec.OrderBy);
         else if (spec.OrderByDescending != null)
             query = query.OrderByDescending(spec.OrderByDescending);
 
-        if (spec.IsPagingEnabled && spec.Skip.HasValue && spec.Take.HasValue)
+        if (spec is { IsPagingEnabled: true, Skip: not null, Take: not null })
             query = query.Skip(spec.Skip.Value).Take(spec.Take.Value);
 
         query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
 
-        foreach (var include in spec.IncludeStrings)
-        {
-            query = query.Include(include);
-        }
-
-        return query;
+        return spec.IncludeStrings.Aggregate(query, (current, include) => current.Include(include));
     }
 }
