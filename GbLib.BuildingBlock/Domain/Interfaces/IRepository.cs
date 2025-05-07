@@ -6,6 +6,7 @@ namespace GbLib.BuildingBlock.Domain.Interfaces;
 
 public interface IQueryRepository<TEntity> where TEntity : IEntity
 {
+    Task<TEntity?> GetAsync(BaseSpecification<TEntity> spec);
     Task<TEntity?> GetByIdAsync(Guid id);
     Task<List<TEntity>> ListAsync(BaseSpecification<TEntity> spec); // Use BaseSpecification directly
     Task<(List<TEntity> Items, int TotalCount)> ListAsyncWithPaging(BaseSpecification<TEntity> spec); // Use BaseSpecification for paging as well

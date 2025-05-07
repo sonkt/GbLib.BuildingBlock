@@ -32,7 +32,7 @@ public abstract class BaseSpecification<T> : ISpecification<T>
     protected void ApplyOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
         => OrderByDescending = orderByDescExpression;
 
-    public void ApplyAsNoTracking()
+    protected void ApplyAsNoTracking()
     {
         AsNoTracking = true;
     }
