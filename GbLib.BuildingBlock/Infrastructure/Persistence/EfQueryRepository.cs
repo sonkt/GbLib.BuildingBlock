@@ -14,6 +14,11 @@ public class EfQueryRepository<TEntity,TKey> : IQueryRepository<TEntity> where T
         _dbSet = dbContext.Set<TEntity>();
     }
 
+    public async Task<TEntity?> GetAsync(BaseSpecification<TEntity> spec)
+    {
+       return await ApplySpecification(spec).FirstOrDefaultAsync();
+    }
+
     public async Task<TEntity?> GetByIdAsync(Guid id)
     {
         return await _dbSet.FindAsync(id);
