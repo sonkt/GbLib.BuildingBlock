@@ -1,3 +1,4 @@
+using GbLib.BuildingBlock.Domain.Entities;
 using GbLib.BuildingBlock.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -14,12 +15,16 @@ namespace GbLib.BuildingBlock.Infrastructure.UnitOfWork;
 /// </typeparam>
 public class UnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
 {
+    private readonly ICurrentUserProvider _currentUserProvider;
+    private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly DbContext _dbContext;
     private IDbContextTransaction? _transaction;
 
-    public UnitOfWork(TDbContext dbContext, IServiceProvider serviceProvider)
+    public UnitOfWork(TDbContext dbContext, ICurrentUserProvider currentUserProvider, ICurrentTenantProvider currentTenantProvider)
     {
         _dbContext = dbContext;
+        _currentUserProvider = currentUserProvider;
+        _currentTenantProvider = currentTenantProvider;
     }
 
 
@@ -32,7 +37,55 @@ public class UnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
     /// </returns>
     public async Task<int> SaveChangesAsync()
     {
+        ApplyAuditInfo();
+        ApplyTenantInfo();
         return await _dbContext.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Applies tenant information to entities in the context that implement the <see cref="ITenantEntity"/> interface.
+    /// </summary>
+    private void ApplyTenantInfo()
+    {
+        var tenantId = _currentTenantProvider.GetCurrentTenantId();
+        foreach (var entry in _dbContext.ChangeTracker.Entries<ITenantEntity>())
+        {
+            entry.Entity.TenantId = tenantId;
+        }
+    }
+
+    /// <summary>
+    /// Applies auditing information to entities in the context that implement the <see cref="IHasAudit"/> interface.
+    /// This includes setting creation and modification timestamps, as well as identifiers for the user
+    /// who performed the operations.
+    /// </summary>
+    private void ApplyAuditInfo()
+    {
+        var userId = _currentUserProvider.GetCurrentUserId();
+
+        foreach (var entry in _dbContext.ChangeTracker.Entries<IHasAudit>())
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.CreatedBy = userId;
+                    break;
+                case EntityState.Modified:
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                    entry.Entity.UpdatedBy = userId;
+                    break;
+                case EntityState.Deleted:
+                    entry.Entity.DeletedAt = DateTime.UtcNow;
+                    entry.Entity.DeletedBy = userId;
+                    break;
+                case EntityState.Detached:
+                case EntityState.Unchanged:
+                default:
+                    break;
+            }
+        }
+
     }
 
     /// <summary>
