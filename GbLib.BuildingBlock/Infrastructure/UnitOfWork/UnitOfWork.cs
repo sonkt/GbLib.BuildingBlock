@@ -16,13 +16,15 @@ namespace GbLib.BuildingBlock.Infrastructure.UnitOfWork;
 public class UnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
 {
     private readonly ICurrentUserProvider _currentUserProvider;
+    private readonly ICurrentTenantProvider _currentTenantProvider;
     private readonly DbContext _dbContext;
     private IDbContextTransaction? _transaction;
 
-    public UnitOfWork(TDbContext dbContext, ICurrentUserProvider currentUserProvider)
+    public UnitOfWork(TDbContext dbContext, ICurrentUserProvider currentUserProvider, ICurrentTenantProvider currentTenantProvider)
     {
         _dbContext = dbContext;
         _currentUserProvider = currentUserProvider;
+        _currentTenantProvider = currentTenantProvider;
     }
 
 
@@ -36,9 +38,21 @@ public class UnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
     public async Task<int> SaveChangesAsync()
     {
         ApplyAuditInfo();
+        ApplyTenantInfo();
         return await _dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Applies tenant information to entities in the context that implement the <see cref="ITenantEntity"/> interface.
+    /// </summary>
+    private void ApplyTenantInfo()
+    {
+        var tenantId = _currentTenantProvider.GetCurrentTenantId();
+        foreach (var entry in _dbContext.ChangeTracker.Entries<ITenantEntity>())
+        {
+            entry.Entity.TenantId = tenantId;
+        }
+    }
 
     /// <summary>
     /// Applies auditing information to entities in the context that implement the <see cref="IHasAudit"/> interface.

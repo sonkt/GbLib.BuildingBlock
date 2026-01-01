@@ -11,6 +11,7 @@ public abstract class Entity<TKey> : IEntity<TKey>
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public virtual TKey Id { get; set; } = default!;
+
     public bool IsDeleted { get; set; } = false;
     public DateTime? DeletedAt { get; set; }
     public Guid? DeletedBy { get; set; }
@@ -71,16 +72,29 @@ public abstract class AuditableAggregateRoot : AuditableEntity
 {
 }
 
+public abstract class TenantAggregateRoot : TenantEntity
+{
+}
+
 public abstract class AggregateRoot<TKey> : Entity<TKey>
 {
 }
+
+public abstract class AggregateTenantRoot<TKey> : TenantEntity<TKey>
+{
+}
+
 public abstract class AuditableAggregateRoot<TKey> : AuditableEntity<TKey>
 {
 }
 
-public abstract class AuditableEntity : Entity,IHasAudit
+public abstract class AuditableTenantAggregateRoot<TKey> : AuditableTenantEntity<TKey>
 {
-    public DateTime CreatedAt { get; set; }= DateTime.UtcNow;
+}
+
+public abstract class AuditableEntity : Entity, IHasAudit
+{
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public string CreatedBy { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public string? UpdatedBy { get; set; }
@@ -88,7 +102,7 @@ public abstract class AuditableEntity : Entity,IHasAudit
     public string? DeletedBy { get; set; }
 }
 
-public abstract class AuditableEntity<TKey> : Entity<TKey>,IHasAudit
+public abstract class AuditableEntity<TKey> : Entity<TKey>, IHasAudit
 {
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
@@ -96,4 +110,24 @@ public abstract class AuditableEntity<TKey> : Entity<TKey>,IHasAudit
     public string? DeletedBy { get; set; }
     public string CreatedBy { get; set; }
     public string? UpdatedBy { get; set; }
+}
+
+public abstract class TenantEntity : Entity, ITenantEntity
+{
+    public Guid TenantId { get; set; }
+}
+
+public abstract class AuditableTenantEntity : AuditableEntity, ITenantEntity
+{
+    public Guid TenantId { get; set; }
+}
+
+public abstract class TenantEntity<TKey> : Entity<TKey>, ITenantEntity
+{
+    public Guid TenantId { get; set; }
+}
+
+public abstract class AuditableTenantEntity<TKey> : AuditableEntity<TKey>, ITenantEntity
+{
+    public Guid TenantId { get; set; }
 }
