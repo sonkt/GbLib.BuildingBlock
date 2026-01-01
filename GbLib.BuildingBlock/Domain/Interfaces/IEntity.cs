@@ -6,5 +6,20 @@ public interface IEntity<out TKey> : IEntity
 }
 public interface IEntity
 {
+    public bool IsDeleted { get; set; }
 }
 
+public interface IHasAudit
+{
+    public DateTime CreatedAt { get; set; }
+    public string CreatedBy { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public string? UpdatedBy { get; set; }
+    public DateTime? DeletedAt { get; set; }
+    public string? DeletedBy { get; set; }
+}
+
+public interface ITenantEntity
+{
+    public Guid TenantId { get; set; }
+}
