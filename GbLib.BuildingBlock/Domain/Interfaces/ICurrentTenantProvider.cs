@@ -3,6 +3,7 @@ namespace GbLib.BuildingBlock.Domain.Interfaces;
 public interface ICurrentTenantProvider
 {
     Guid GetCurrentTenantId();
-    void SetCurrentTenantId(Guid tenantId);
+    void SetCurrentTenantId(Guid? tenantId);
     bool IsHost();
+    IDisposable Change(Guid tenantId);
 }
